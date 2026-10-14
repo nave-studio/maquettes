@@ -976,6 +976,73 @@ a.pill-btn { text-decoration: none; }
     entrees.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
   }, { threshold: 0.18 });
   document.querySelectorAll('.info, .site-footer').forEach(function (s) { io.observe(s); });
+
+  // ---- Molette : un cran = un chapitre, d'une traite (le doigt sur téléphone n'est pas touché) ----
+  (function () {
+    var reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var anim = 0, enCours = false, dernierCran = 0;
+    var stageMax = function () {
+      var s = document.querySelector('.scroll-stage');
+      return Math.max(1, (s ? s.offsetHeight : 0) - innerHeight);
+    };
+    // Les arrêts : les quatre chapitres du modèle (mêmes positions que le menu), puis chaque
+    // section qui suit. Une section plus haute que l'écran se parcourt en plusieurs arrêts.
+    var arrets = function () {
+      var m = stageMax(), fin = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+      var liste = [0, 0.34, 0.62, 0.94].map(function (f) { return f * m; });
+      ['#contact', '#horaires', '#coordonnees'].forEach(function (sel) {
+        var s = document.querySelector(sel);
+        if (!s) return;
+        var haut = s.getBoundingClientRect().top + scrollY, h = s.offsetHeight;
+        liste.push(haut);
+        for (var y = haut + innerHeight * 0.8; y < haut + h - innerHeight * 0.9; y += innerHeight * 0.8) liste.push(y);
+      });
+      liste.push(fin);
+      return liste.map(function (y) { return Math.min(Math.max(0, Math.round(y)), fin); })
+        .sort(function (a, b) { return a - b; })
+        .filter(function (y, i, t) { return i === 0 || y - t[i - 1] > 40; });
+    };
+    var aller = function (cible) {
+      cancelAnimationFrame(anim);
+      var depart = scrollY, ecart = cible - depart;
+      if (Math.abs(ecart) < 2) return;
+      if (reduit) { scrollTo(0, cible); return; }
+      var duree = Math.min(1400, 700 + Math.abs(ecart) * 0.25), t0 = performance.now();
+      enCours = true;
+      (function pas(now) {
+        var t = Math.min(1, (now - t0) / duree);
+        var e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        scrollTo(0, depart + ecart * e);
+        if (t < 1) anim = requestAnimationFrame(pas); else enCours = false;
+      })(t0);
+    };
+    var suivant = function (sens) {
+      var y = scrollY, liste = arrets(), cible = null, i;
+      if (sens > 0) { for (i = 0; i < liste.length; i++) if (liste[i] > y + 8) { cible = liste[i]; break; } }
+      else { for (i = liste.length - 1; i >= 0; i--) if (liste[i] < y - 8) { cible = liste[i]; break; } }
+      if (cible !== null) aller(cible);
+    };
+    addEventListener('wheel', function (e) {
+      if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) || document.body.classList.contains('is-loading')) return;
+      e.preventDefault();
+      // Un geste = un saut : on attend un court silence de la molette (ou de l'inertie du
+      // pavé tactile) avant d'accepter le cran suivant.
+      var maintenant = performance.now(), calme = maintenant - dernierCran > 220;
+      dernierCran = maintenant;
+      if (enCours || !calme) return;
+      suivant(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+    addEventListener('keydown', function (e) {
+      var cible = e.target instanceof Element ? e.target : null;
+      if (cible && cible.closest('input, textarea, select, label, .agenda')) return;
+      if (e.altKey || e.metaKey || e.ctrlKey) return;
+      var sens = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1 }[e.key];
+      if (e.key === ' ' && !(cible && cible.closest('a, button'))) sens = e.shiftKey ? -1 : 1;
+      if (!sens) return;
+      e.preventDefault();
+      if (!enCours) suivant(sens);
+    });
+  })();
 })();
 </script>
 
