@@ -1,0 +1,7 @@
+# Rien de tout ça ne doit partir sur GitHub (le dépôt est public).
+outils/
+CLAUDE.md
+*.md
+.claude/
+*.zip
+.DS_Store

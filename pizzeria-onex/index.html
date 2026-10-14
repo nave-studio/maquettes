@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pizzeria della Mamma, Onex</title>
+<meta name="description" content="Pizzeria napolitaine au feu de bois à Onex. Réservez une table ou commandez à emporter. Maquette, pizzeria fictive.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#141518">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pizzeria della Mamma, Onex">
+<meta property="og:description" content="Pizza napolitaine au feu de bois. Maquette réalisée par le studio de l'araignée.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141518'/%3E%3Cpath d='M12 50a20 20 0 0 1 40 0z' fill='%23E2461F'/%3E%3Cpath d='M22 50a10 10 0 0 1 20 0z' fill='%23F2C230'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Familjen+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chaux:#F6F7F4; --chaux-2:#E9EBE5; --ink:#141518; --stone:#212226; --stone-2:#2E2F34; --stone-3:#45464C;
+  --maio:#1E3A8A; --maio-2:#2B4DAA; --maio-d:#152A66;
+  --braise:#E2461F; --braise-2:#FF7A2F; --citron:#F2C230;
+  --muted:#5C5E64; --muted-d:#A4A6A2;
+  --serif:'Bodoni Moda','Didot','Bodoni 72',serif;
+  --sans:'Familjen Grotesk',system-ui,-apple-system,sans-serif;
+  --wrap:min(1240px,100% - 40px);
+  --ease:cubic-bezier(.2,.75,.1,1);
+  --tile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Crect width='56' height='56' fill='%231E3A8A'/%3E%3Cpath d='M28 7c6 8 6 13 0 21c-6-8-6-13 0-21zM28 49c6-8 6-13 0-21c-6 8-6 13 0 21zM7 28c8-6 13-6 21 0c-8 6-13 6-21 0zM49 28c-8-6-13-6-21 0c8 6 13 6 21 0z' fill='%23F6F7F4'/%3E%3Ccircle cx='28' cy='28' r='4.5' fill='%23F2C230'/%3E%3Cpath d='M0 0h9L0 9zM56 0h-9l9 9zM0 56h9l-9-9zM56 56h-9l9-9z' fill='%23F2C230'/%3E%3C/svg%3E");
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--chaux);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+img,svg,canvas{display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--citron);outline-offset:3px;border-radius:4px}
+.wrap{width:var(--wrap);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;border:1px solid transparent;font-weight:500;font-size:16px;text-decoration:none;letter-spacing:.01em;transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .25s var(--ease);will-change:transform}
+.btn-fire{background:var(--braise);color:#fff}
+.btn-fire:hover{background:#F0552C}
+.btn-line{border-color:rgba(246,247,244,.45);color:var(--chaux)}
+.btn-line:hover{border-color:var(--chaux);background:rgba(246,247,244,.08)}
+.btn-ink{background:var(--ink);color:var(--chaux)}
+.btn-ink:hover{background:var(--stone-2)}
+.btn-block{width:100%}
+
+/* Écran d'ouverture */
+.pre{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--ink);color:var(--chaux);transition:clip-path 1s var(--ease);clip-path:inset(0 0 0 0)}
+.pre.out{clip-path:inset(0 0 100% 0)}
+.pre-in{text-align:center}
+.pre-label{display:block;font-size:14px;color:var(--muted-d);margin-bottom:6px}
+.pre-num{font-family:var(--serif);font-style:italic;font-size:clamp(64px,12vw,128px);line-height:1;font-variant-numeric:lining-nums tabular-nums;color:var(--chaux)}
+.pre-bar{width:min(260px,60vw);height:2px;background:var(--stone-2);margin:22px auto 0;overflow:hidden;border-radius:2px}
+.pre-bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--braise),var(--braise-2),var(--citron));transform:scaleX(0);transform-origin:left}
+html:not(.js) .pre{display:none}
+
+/* Navigation */
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;color:var(--chaux);transition:background .4s var(--ease),color .4s var(--ease),transform .5s var(--ease),box-shadow .4s}
+.nav-in{width:var(--wrap);margin-inline:auto;height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav.solid{background:rgba(246,247,244,.86);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);color:var(--ink);box-shadow:0 1px 0 rgba(20,21,24,.08)}
+.nav.hide{transform:translateY(-100%)}
+.brand{font-family:var(--serif);font-style:italic;font-weight:600;font-size:26px;text-decoration:none;letter-spacing:-.01em;line-height:1;white-space:nowrap}
+.brand small{display:block;font-family:var(--sans);font-style:normal;font-weight:400;font-size:11px;letter-spacing:.04em;opacity:.7;margin-top:3px}
+.links{display:flex;gap:34px}
+.links a{text-decoration:none;font-size:15px;position:relative;padding:6px 0}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-act{display:flex;align-items:center;gap:10px}
+.cart-btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 8px 0 18px;border-radius:999px;border:1px solid currentColor;background:transparent;font-size:15px;transition:background .3s,color .3s}
+.cart-btn:hover{background:var(--braise);border-color:var(--braise);color:#fff}
+.bag{display:none}
+.badge{min-width:30px;height:30px;padding:0 8px;border-radius:999px;background:var(--braise);color:#fff;display:inline-grid;place-items:center;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.cart-btn:hover .badge{background:#fff;color:var(--braise)}
+.badge.bump{animation:bump .5s var(--ease)}
+@keyframes bump{30%{transform:scale(1.35)}60%{transform:scale(.92)}}
+.burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid currentColor;background:transparent;position:relative}
+.burger span{position:absolute;left:13px;right:13px;height:1.5px;background:currentColor;transition:transform .4s var(--ease)}
+.burger span:first-child{top:17px}.burger span:last-child{top:25px}
+.menu-open .burger span:first-child{transform:translateY(4px) rotate(45deg)}
+.menu-open .burger span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.mob{position:fixed;inset:0;z-index:35;background:var(--ink);color:var(--chaux);display:flex;flex-direction:column;justify-content:center;padding:100px 28px 40px;clip-path:circle(0 at calc(100% - 42px) 38px);transition:clip-path .7s var(--ease);visibility:hidden}
+.menu-open .nav{transform:none;background:transparent;color:var(--chaux);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.menu-open .mob{clip-path:circle(150% at calc(100% - 42px) 38px);visibility:visible}
+.mob a{font-family:var(--serif);font-style:italic;font-size:44px;line-height:1.25;text-decoration:none}
+.mob p{margin-top:40px;color:var(--muted-d);font-size:15px}
+
+/* Héros */
+.hero{position:relative;min-height:100svh;background:radial-gradient(120% 70% at 50% 110%,#3a170b 0%,#1a1112 38%,var(--ink) 70%);color:var(--chaux);overflow:hidden;isolation:isolate;--fw:min(94vw,800px,84svh)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.hero-glow{position:absolute;inset:auto -20% -30% -20%;height:90%;z-index:0;background:radial-gradient(45% 55% at calc(50% + var(--mx,0px)) 100%,rgba(255,122,47,.38),rgba(226,70,31,.14) 45%,transparent 70%);animation:breathe 5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes breathe{to{opacity:.75;transform:scale(1.04)}}
+.hero-txt{position:relative;z-index:3;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px calc(var(--fw)*.14 + 70px)}
+.hero-kicker{margin:0 0 18px;font-size:15px;color:#E9C9B5}
+.hero-title{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(46px,12.2vw,176px);line-height:.88;letter-spacing:-.025em;margin:0;text-shadow:0 10px 60px rgba(0,0,0,.45)}
+.hero-title .ln{display:block;overflow:hidden;padding:0 .08em .06em}
+.hero-title .wd{display:inline-block;white-space:nowrap}
+.hero-title .ch{display:inline-block;transform:translateY(105%) rotate(6deg);transition:transform 1.2s var(--ease);transition-delay:calc(var(--i)*38ms + .15s)}
+html:not(.js) .hero-title .ch,.ready .hero-title .ch{transform:none}
+.hero-sub{max-width:34em;margin:28px auto 0;font-size:clamp(16px,1.6vw,19px);color:#DCD3CC}
+.hero-cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+.js .hero-fade{opacity:0;transform:translateY(16px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.ready .hero-fade{opacity:1;transform:none}
+.ready .hero-fade.d1{transition-delay:.75s}.ready .hero-fade.d2{transition-delay:.9s}.ready .hero-fade.d3{transition-delay:1.05s}.ready .hero-fade.d4{transition-delay:1.3s}
+
+.forno{position:absolute;z-index:1;left:50%;bottom:0;width:var(--fw);height:calc(var(--fw)*.5);transform:translateX(-50%)}
+.forno-ring{position:absolute;inset:0;border-radius:var(--fw) var(--fw) 0 0;background:repeating-conic-gradient(from -90deg at 50% 100%,#3d3c40 0deg 6.4deg,#17171a 6.4deg 7.2deg);-webkit-mask:radial-gradient(circle at 50% 100%,transparent calc(var(--fw)*.5 - 40px),#000 calc(var(--fw)*.5 - 39px));mask:radial-gradient(circle at 50% 100%,transparent calc(var(--fw)*.5 - 40px),#000 calc(var(--fw)*.5 - 39px));box-shadow:inset 0 2px 0 rgba(255,255,255,.04)}
+.forno-ring::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(70% 95% at 50% 100%,rgba(255,120,50,.55),rgba(226,70,31,.18) 55%,transparent 80%);mix-blend-mode:screen;animation:breathe 2.2s ease-in-out infinite alternate}
+.forno-mouth{position:absolute;left:40px;right:40px;bottom:0;height:calc(var(--fw)*.5 - 40px);border-radius:var(--fw) var(--fw) 0 0;overflow:hidden;background:radial-gradient(90% 90% at 50% 100%,#4a1a0b 0%,#1a0c08 45%,#09090a 75%)}
+.fire,.fire2{position:absolute;left:4%;right:4%;bottom:-14%;height:88%;border-radius:50% 50% 0 0;filter:blur(10px);transform-origin:50% 100%}
+.fire{background:radial-gradient(50% 70% at 50% 100%,#FFE39A 0%,#FF9A3C 22%,#E2461F 46%,rgba(226,70,31,.25) 66%,transparent 78%);animation:flick 2.6s ease-in-out infinite}
+.fire2{left:18%;right:18%;height:66%;background:radial-gradient(50% 70% at 50% 100%,#FFF2C6 0%,#FFB44D 30%,rgba(255,122,47,.4) 60%,transparent 76%);animation:flick 1.7s ease-in-out infinite reverse;mix-blend-mode:screen}
+@keyframes flick{0%{transform:scale(1,1);opacity:.95}20%{transform:scale(1.04,1.08) translateX(-1%)}40%{transform:scale(.98,.94);opacity:.85}60%{transform:scale(1.03,1.1) translateX(1%);opacity:1}80%{transform:scale(1,.97)}100%{transform:scale(1,1);opacity:.95}}
+.logs{position:absolute;left:30%;right:30%;bottom:0;height:16px;border-radius:8px 8px 0 0;background:linear-gradient(#2a120a,#120807);box-shadow:0 -6px 22px rgba(255,120,40,.5)}
+
+.hero-foot{position:absolute;z-index:4;left:0;right:0;bottom:0;width:var(--wrap);margin-inline:auto;display:flex;justify-content:space-between;align-items:center;padding:0 0 22px;font-size:14px;color:#CFC6BF}
+.status{display:inline-flex;align-items:center;gap:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:#7BD88F;box-shadow:0 0 0 0 rgba(123,216,143,.6);animation:ping 2s infinite}
+.dot.closed{background:var(--braise);animation:none}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(123,216,143,0)}100%{box-shadow:0 0 0 0 rgba(123,216,143,0)}}
+.scroll-hint{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.scroll-hint i{width:1px;height:34px;background:linear-gradient(var(--chaux),transparent);position:relative;overflow:hidden}
+.scroll-hint i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--citron);animation:drip 1.8s var(--ease) infinite}
+@keyframes drip{to{top:110%}}
+
+/* Bandeau défilant */
+.marquee{background:var(--maio);color:var(--chaux);overflow:hidden;position:relative}
+.marquee::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:var(--tile);background-size:14px 14px}
+.marquee::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:var(--tile);background-size:14px 14px}
+.mq-track{display:flex;width:max-content;align-items:center;gap:40px;padding:34px 0;animation:mq 38s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-track span{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.4vw,44px);white-space:nowrap;line-height:1}
+.mq-track b{width:30px;height:30px;flex:none;background:var(--tile);background-size:30px 30px;border-radius:4px;transform:rotate(45deg)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* Titres de section */
+.sec{padding-block:clamp(90px,12vw,160px)}
+.h2{font-family:var(--serif);font-weight:500;font-size:clamp(44px,6.6vw,92px);line-height:.96;letter-spacing:-.025em;margin:0}
+.h2 em{font-style:italic}
+.reveal{overflow:hidden;padding-bottom:.08em}
+.js .reveal>span{display:block;transform:translateY(108%);transition:transform 1.1s var(--ease)}
+.reveal.in>span{transform:none}
+.js .fade{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.fade.in{opacity:1;transform:none}
+.lede{font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:36em}
+
+/* Notre feu (scroll) */
+.feu{position:relative;height:420vh;background:var(--ink);color:var(--chaux)}
+.feu-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;width:var(--wrap);margin-inline:auto;gap:40px}
+.pz-stage{position:relative;aspect-ratio:1;width:min(100%,640px);justify-self:center}
+.pz-glow{position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,122,47,.55),rgba(226,70,31,.18) 55%,transparent 75%);opacity:.15;transform:scale(.8);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.pz-stage.hot .pz-glow{opacity:1;transform:scale(1);animation:breathe 2.4s ease-in-out infinite alternate}
+.pz-peel{position:absolute;inset:4%;border-radius:50%;background:repeating-linear-gradient(90deg,#4a3526 0 22px,#3e2c20 22px 24px);opacity:.55;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+#pizza{position:relative;width:100%;height:auto;overflow:visible}
+#pzRot{transform-origin:200px 200px;transform-box:view-box}
+.pz-sauce,.pz-char,.pz-basil,.pz-oil,.pz-flour{transition:opacity 1s var(--ease),transform 1s var(--ease);transform-box:fill-box;transform-origin:center}
+.pz-sauce{opacity:0;transform:scale(.55) rotate(-40deg)}
+.pz-char{opacity:0}
+.pz-oil{opacity:0}
+.blob,.leaf{transform-box:fill-box;transform-origin:center;opacity:0;transform:translateY(-40px) scale(1.5);transition:opacity .7s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d)*70ms)}
+.s1 .pz-sauce{opacity:1;transform:none}
+.s1 .pz-flour{opacity:0}
+.s2 .blob{opacity:1;transform:none}
+.s3 .pz-char{opacity:1}
+.s3 .leaf{opacity:1;transform:rotate(var(--r)) scale(1)}
+.leaf{transform:rotate(var(--r)) translateY(-40px) scale(1.6)}
+.s3 .pz-oil{opacity:1}
+.feu-txt{position:relative}
+.feu-txt .h2{font-size:clamp(38px,4.6vw,66px);margin-bottom:34px;padding-right:130px}
+.steps{position:relative;min-height:260px}
+.step{position:absolute;inset:0 0 auto 0;opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .9s var(--ease);pointer-events:none}
+.step.on{opacity:1;transform:none;pointer-events:auto}
+.step.past{transform:translateY(-30px)}
+.step h3{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3vw,42px);margin:0 0 14px;line-height:1.05}
+.step p{margin:0;color:#C9CBC6;max-width:30em;font-size:18px;line-height:1.7}
+.step .meta{display:inline-block;margin-top:22px;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--citron)}
+.ticks{display:flex;align-items:flex-end;gap:10px;margin-top:40px}
+.ticks li{list-style:none;flex:1;max-width:120px}
+.ticks{padding:0}
+.ticks span{display:block;font-size:13px;color:var(--muted-d);margin-bottom:8px;transition:color .4s}
+.ticks i{display:block;height:2px;background:var(--stone-3);overflow:hidden;position:relative}
+.ticks i::after{content:"";position:absolute;inset:0;background:var(--braise-2);transform:scaleX(var(--f,0));transform-origin:left}
+.ticks li.on span{color:var(--chaux)}
+.temp{position:absolute;right:0;top:0;text-align:right;font-family:var(--serif);font-style:italic;font-size:clamp(28px,3vw,40px);line-height:1;color:var(--braise-2);font-variant-numeric:lining-nums tabular-nums}
+.temp small{display:block;font-family:var(--sans);font-style:normal;font-size:12px;color:var(--muted-d);margin-top:6px}
+
+/* La carte */
+.carte{background:var(--chaux)}
+.carte-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:40px;align-items:end;margin-bottom:56px}
+.carte-head .lede{margin:0}
+.tabs{position:relative;display:flex;gap:4px;padding:5px;border-radius:999px;background:var(--chaux-2);width:max-content;max-width:100%;overflow-x:auto;margin-bottom:48px;scrollbar-width:none}
+.tab{position:relative;z-index:1;border:0;background:transparent;height:46px;padding:0 24px;border-radius:999px;font-size:15px;white-space:nowrap;color:var(--muted);transition:color .35s}
+.tab[aria-selected="true"]{color:var(--chaux)}
+.tab-ind{position:absolute;z-index:0;top:5px;left:0;height:46px;border-radius:999px;background:var(--ink);transition:transform .55s var(--ease),width .55s var(--ease)}
+.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:72px}
+.menu-grid.static .dish{animation:none;opacity:1;transform:none}
+.dish{padding:30px 0;border-top:1px solid rgba(20,21,24,.12);opacity:0;transform:translateY(18px);animation:dishIn .7s var(--ease) forwards;animation-delay:calc(var(--d)*60ms)}
+@keyframes dishIn{to{opacity:1;transform:none}}
+.dish-top{display:flex;align-items:baseline;gap:14px}
+.dish h3{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.3vw,32px);line-height:1.1;letter-spacing:-.01em}
+.dish .lead{flex:1;border-bottom:1.5px dotted rgba(20,21,24,.3);transform:translateY(-6px);min-width:20px}
+.dash{font-family:var(--sans);font-weight:400}
+.dish .price{font-family:var(--serif);font-size:24px;font-variant-numeric:lining-nums}
+.dish p{margin:8px 0 0;color:var(--muted);max-width:32em;font-size:16px}
+.dish-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;min-height:42px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12.5px;padding:4px 10px;border-radius:999px;background:var(--chaux-2);color:var(--muted)}
+.tag.sig{background:#FBE7A6;color:#6B4E00}
+.tag.hot{background:#FBD9CC;color:#8E2A10}
+.tag.veg{background:#DCE8D3;color:#2E5222}
+.add{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 6px 0 18px;border-radius:999px;border:1px solid rgba(20,21,24,.2);background:transparent;font-size:14.5px;transition:background .3s,border-color .3s,color .3s}
+.add i{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--chaux);display:grid;place-items:center;font-style:normal;font-size:18px;line-height:1;transition:transform .5s var(--ease),background .3s}
+.add:hover{border-color:var(--ink)}
+.add:hover i{transform:rotate(90deg);background:var(--braise)}
+.add.done i{background:#2E7D4F}
+.qty-note{font-size:13.5px;color:var(--braise);font-weight:500;margin-right:auto;margin-left:12px}
+.carte-note{margin-top:46px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between;padding:26px 30px;border-radius:20px;background:var(--ink);color:var(--chaux)}
+.carte-note p{margin:0;max-width:40em;color:#D3D4CF}
+.carte-note strong{color:var(--chaux);font-weight:500}
+
+/* La Mamma */
+.mamma{background:var(--chaux-2);overflow:hidden}
+.mamma-in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,110px);align-items:center}
+.tile-panel{position:relative;aspect-ratio:4/5;border-radius:220px 220px 18px 18px;background:var(--tile);background-size:84px 84px;overflow:hidden;box-shadow:0 30px 70px rgba(30,58,138,.25)}
+.tile-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(21,42,102,.55))}
+.medal{position:absolute;left:50%;top:50%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--chaux);display:grid;place-items:center;text-align:center;box-shadow:0 0 0 10px var(--chaux),0 0 0 12px var(--citron),0 20px 50px rgba(0,0,0,.3)}
+.medal span{font-family:var(--serif);font-style:italic;font-size:clamp(60px,7vw,104px);line-height:.8;color:var(--maio)}
+.medal small{display:block;font-size:13px;color:var(--muted);margin-top:12px}
+.medal-ring{position:absolute;inset:3%;animation:spin 40s linear infinite}
+.medal-ring text{font-family:var(--sans);font-size:15px;letter-spacing:.3em;fill:var(--maio)}
+@keyframes spin{to{transform:rotate(360deg)}}
+blockquote{margin:0}
+.quote{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(32px,3.9vw,56px);line-height:1.12;letter-spacing:-.015em;margin:0}
+.quote-by{margin-top:28px;font-size:16px;color:var(--muted)}
+.quote-by strong{color:var(--ink);font-weight:500}
+.story{margin-top:34px;padding-top:30px;border-top:1px solid rgba(20,21,24,.14);color:var(--muted);max-width:36em}
+
+/* Réserver */
+.resa{background:var(--maio);color:var(--chaux);position:relative}
+.resa::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:var(--tile);background-size:14px 14px}
+.resa-in{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,6vw,96px);align-items:start}
+.resa .lede{color:#C9D3F0;margin-top:26px}
+.resa-facts{margin:40px 0 0;padding:0;list-style:none;display:grid;gap:14px}
+.resa-facts li{display:flex;gap:14px;align-items:baseline;color:#DCE3F7}
+.resa-facts li::before{content:"";width:14px;height:14px;flex:none;background:var(--tile);background-size:14px;border-radius:2px;transform:rotate(45deg) translateY(2px)}
+.card{background:var(--chaux);color:var(--ink);border-radius:28px;padding:clamp(24px,3.4vw,44px);box-shadow:0 40px 90px rgba(10,20,60,.45)}
+.f-label{display:block;font-size:14px;font-weight:500;margin:0 0 12px}
+.f-row{margin-bottom:28px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scrollbar-width:thin}
+.chip{flex:none;border:1px solid rgba(20,21,24,.16);background:#fff;border-radius:16px;padding:10px 0;width:72px;text-align:center;line-height:1.15;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease)}
+.chip b{display:block;font-family:var(--serif);font-size:26px;font-weight:500;margin:2px 0}
+.chip small{font-size:12px;color:var(--muted)}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--chaux);border-color:var(--ink)}
+.chip[aria-pressed="true"] small{color:#BFC1BC}
+.seg{display:inline-flex;padding:4px;border-radius:999px;background:var(--chaux-2);margin-bottom:12px}
+.seg button{border:0;background:transparent;height:38px;padding:0 20px;border-radius:999px;font-size:14.5px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.times{display:flex;flex-wrap:wrap;gap:8px}
+.time{border:1px solid rgba(20,21,24,.16);background:#fff;border-radius:999px;height:42px;padding:0 18px;font-size:15px;font-variant-numeric:tabular-nums;transition:background .25s,color .25s,border-color .25s}
+.time:hover:not(:disabled){border-color:var(--ink)}
+.time[aria-pressed="true"]{background:var(--braise);border-color:var(--braise);color:#fff}
+.no-slot{margin:4px 0 0;color:var(--muted);font-size:15px}
+.time:disabled{cursor:not-allowed;color:#A7A9A4;text-decoration:line-through;background:transparent;border-style:dashed}
+.stepper{display:inline-flex;align-items:center;border:1px solid rgba(20,21,24,.16);border-radius:999px;background:#fff;height:50px}
+.stepper button{width:50px;height:48px;border:0;background:transparent;font-size:22px;border-radius:50%}
+.stepper output{min-width:110px;text-align:center;font-size:16px;font-variant-numeric:tabular-nums}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+.field input,.field select{width:100%;height:52px;border-radius:14px;border:1px solid rgba(20,21,24,.18);background:#fff;padding:0 16px;font:inherit;font-size:16px;color:var(--ink);transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23141518' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--maio);box-shadow:0 0 0 4px rgba(30,58,138,.15)}
+.field.err input{border-color:#C22D0E}
+.err-msg{display:block;font-size:13px;color:#B3290C;margin-top:6px;min-height:0}
+.resa-sum{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:30px;padding-top:24px;border-top:1px solid rgba(20,21,24,.1);flex-wrap:wrap}
+.resa-sum p{margin:0;color:var(--muted);font-size:15px}
+.resa-sum strong{color:var(--ink);font-weight:500}
+.done-card{text-align:center;padding:30px 10px}
+.done-ico{width:84px;height:84px;margin:0 auto 22px}
+.done-ico circle{stroke-dasharray:240;stroke-dashoffset:240;animation:draw .9s var(--ease) forwards}
+.done-ico path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .6s var(--ease) .6s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done-card h3{font-family:var(--serif);font-weight:500;font-size:36px;margin:0 0 12px;line-height:1.1}
+.done-card p{color:var(--muted);margin:0 auto 6px;max-width:28em}
+.mock-note{font-size:13px;color:var(--muted);margin-top:18px!important}
+
+/* Infos */
+.infos{background:var(--ink);color:var(--chaux)}
+.infos .h2{margin-bottom:60px}
+.infos-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);gap:28px}
+.map{position:relative;border-radius:24px;overflow:hidden;background:#1B1C20;min-height:340px;grid-row:span 2}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map-pin{position:absolute;left:54%;top:52%;transform:translate(-50%,-100%)}
+.map-pin b{display:block;width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--braise);transform:rotate(-45deg);box-shadow:0 6px 16px rgba(0,0,0,.5)}
+.map-pin::after{content:"";position:absolute;left:50%;top:100%;width:46px;height:16px;margin:-6px 0 0 -23px;border-radius:50%;border:2px solid var(--braise);animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
+.map-label{position:absolute;left:20px;bottom:20px;right:20px;display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.map-label span{background:rgba(20,21,24,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;font-size:14px}
+.map-label a{background:var(--chaux);color:var(--ink);padding:8px 16px;border-radius:999px;font-size:14px;text-decoration:none;font-weight:500}
+.info-box{border-radius:24px;background:var(--stone);padding:30px}
+.info-box h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 18px;line-height:1.1}
+.info-box p{margin:0 0 10px;color:#C9CBC6}
+.info-box a{text-decoration:none;border-bottom:1px solid rgba(246,247,244,.3);transition:border-color .3s}
+.info-box a:hover{border-color:var(--citron)}
+.hours{width:100%;border-collapse:collapse;font-size:15.5px;font-variant-numeric:tabular-nums}
+.hours td{padding:9px 0;border-bottom:1px solid var(--stone-2);color:#C9CBC6;vertical-align:top}
+.hours td:last-child{text-align:right}
+.hours tr.today td{color:var(--chaux);font-weight:500}
+.hours tr.today td:first-child::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--citron);margin-right:9px;vertical-align:2px}
+.big-tel{display:block;font-family:var(--serif);font-size:clamp(28px,2.6vw,36px);line-height:1.1;margin-bottom:14px;border:0!important}
+.status-box{grid-column:2 / span 2;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--braise);color:#fff}
+.status-box p{color:#FFE6DC;margin:0}
+.status-box strong{display:block;font-family:var(--serif);font-weight:500;font-size:30px;color:#fff;line-height:1.1;margin-bottom:4px}
+
+/* Pied de page */
+.foot{background:var(--ink);color:var(--chaux);padding:0 0 30px;overflow:hidden}
+.foot-tiles{height:14px;background:var(--tile);background-size:14px 14px}
+.wordmark{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(56px,14.5vw,250px);line-height:.95;letter-spacing:-.04em;padding:0 .06em .08em;text-align:center;margin:60px 0 50px;white-space:nowrap;background:linear-gradient(180deg,var(--chaux) 30%,#6b6c70);-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--muted-d);padding-top:24px;border-top:1px solid var(--stone-2)}
+.foot-row a{text-decoration:none}
+.foot-row a:hover{color:var(--chaux)}
+
+/* Tiroir de commande */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(10,10,12,.55);opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(480px,100%);background:var(--chaux);color:var(--ink);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .6s var(--ease);box-shadow:-30px 0 80px rgba(0,0,0,.25);visibility:hidden}
+.cart-open .scrim{opacity:1;visibility:visible}
+.cart-open .drawer{transform:none;visibility:visible}
+.dr-head{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(20,21,24,.1)}
+.dr-head h2{font-family:var(--serif);font-weight:500;font-size:30px;margin:0}
+.x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(20,21,24,.18);background:transparent;font-size:22px;line-height:1;transition:transform .5s var(--ease),background .3s}
+.x:hover{transform:rotate(90deg);background:var(--chaux-2)}
+.dr-body{flex:1;overflow-y:auto;padding:8px 28px 28px}
+.line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(20,21,24,.08)}
+.dr-body.fresh .line{animation:dishIn .5s var(--ease) both}
+.line h4{margin:0;font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.15}
+.line small{color:var(--muted);font-size:13.5px}
+.mini{display:inline-flex;align-items:center;border:1px solid rgba(20,21,24,.16);border-radius:999px;height:36px}
+.mini button{width:34px;height:34px;border:0;background:transparent;font-size:17px;border-radius:50%}
+.mini span{min-width:22px;text-align:center;font-size:15px;font-variant-numeric:tabular-nums}
+.line .amt{min-width:58px;text-align:right;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0 26px;font-size:15px;color:var(--muted)}
+.total strong{font-family:var(--serif);font-weight:500;font-size:34px;color:var(--ink);font-variant-numeric:lining-nums}
+.dr-form{display:grid;gap:16px}
+.empty{text-align:center;padding:60px 10px}
+.empty svg{margin:0 auto 22px}
+.empty h3{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px}
+.empty p{color:var(--muted);margin:0 0 24px}
+.ticket{background:#fff;border-radius:18px;padding:26px 24px;margin-top:20px;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.08);animation:ticket .8s var(--ease) both}
+@keyframes ticket{from{opacity:0;transform:translateY(40px) rotate(-2deg)}}
+.ticket::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:16px;background:radial-gradient(circle at 8px 0,transparent 7px,#fff 7.5px) 0 0/16px 16px repeat-x}
+.ticket .no{font-family:var(--serif);font-style:italic;font-size:44px;line-height:1;margin:4px 0 16px}
+.ticket ul{list-style:none;padding:0;margin:0 0 14px;border-top:1px dashed rgba(20,21,24,.25);border-bottom:1px dashed rgba(20,21,24,.25)}
+.ticket li{display:flex;justify-content:space-between;padding:8px 0;font-size:15px}
+.ticket .row{display:flex;justify-content:space-between;font-size:15px;color:var(--muted);margin-top:6px}
+.ticket .row strong{color:var(--ink);font-weight:500}
+
+/* Petite braise qui vole vers le panier */
+.fly{position:fixed;z-index:80;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:radial-gradient(circle,#FFF2C6,#FF9A3C 45%,var(--braise) 75%);box-shadow:0 0 18px 6px rgba(255,122,47,.6);pointer-events:none}
+
+/* Responsive */
+@media (min-width:981px){
+  .hero-txt{padding-bottom:calc(var(--fw)*.5 - 112px)}
+  .hero-title{font-size:clamp(58px,9.6vw,144px)}
+  .hero-cta{margin-top:92px}
+}
+@media (max-width:980px){
+  .links{display:none}
+  .burger{display:inline-block}
+  .nav-act .btn-resa{display:none}
+  .feu-sticky{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;align-content:center;gap:4px;padding-top:64px}
+  .pz-stage{width:min(42vh,74vw)}
+  .feu-txt .h2{font-size:clamp(30px,7vw,44px);margin-bottom:18px;padding-right:0}
+  .steps{min-height:190px}
+  .step p{font-size:16px}
+  .temp{position:static;text-align:left;margin-bottom:12px}
+  .temp small{display:inline;margin-left:8px}
+  .ticks{margin-top:16px}
+  .carte-head,.mamma-in,.resa-in{grid-template-columns:minmax(0,1fr)}
+  .menu-grid{grid-template-columns:minmax(0,1fr)}
+  .tile-panel{max-width:380px;margin-inline:auto;width:100%}
+  .infos-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .map{grid-column:1 / -1;grid-row:auto}
+  .status-box{grid-column:1 / -1}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .nav-in{height:66px}
+  .brand{font-size:22px}
+  .cart-btn{padding:0 6px 0 14px}
+  .cart-btn .lbl{display:none}
+  .bag{display:block}
+  .cart-btn{gap:8px;padding:0 6px 0 12px!important}
+  .cart-btn{padding:0 6px}
+  .hero-foot{justify-content:center}
+  .hero-foot .addr,.scroll-hint{display:none}
+  .hero-txt{padding-bottom:calc(var(--fw)*.22 + 60px)}
+  .btn{min-height:50px;padding:0 22px}
+  .fields{grid-template-columns:minmax(0,1fr)}
+  .infos-grid{grid-template-columns:minmax(0,1fr)}
+  .dish-top{flex-wrap:wrap}
+  .carte-note{padding:22px}
+  .dr-head,.dr-body{padding-left:20px;padding-right:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .pre{display:none}
+}
+</style>
+</head>
+<body class="locked">
+
+<div class="pre" id="pre" aria-hidden="true">
+  <div class="pre-in">
+    <span class="pre-label">Le four chauffe</span>
+    <span class="pre-num"><span id="deg">20</span>°C</span>
+    <div class="pre-bar"><i id="preBar"></i></div>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Pizzeria della Mamma, retour en haut">della Mamma<small>Pizzeria napolitaine, Onex</small></a>
+    <nav class="links" aria-label="Navigation principale">
+      <a href="#feu">Notre feu</a>
+      <a href="#carte">La carte</a>
+      <a href="#mamma">La Mamma</a>
+      <a href="#reserver">Réserver</a>
+      <a href="#infos">Infos</a>
+    </nav>
+    <div class="nav-act">
+      <button class="cart-btn" id="cartBtn" aria-label="Ouvrir votre commande"><svg class="bag" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="lbl">Commande</span> <span class="badge" id="cartCount">0</span></button>
+      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mob" id="mob">
+  <a href="#feu">Notre feu</a>
+  <a href="#carte">La carte</a>
+  <a href="#mamma">La Mamma</a>
+  <a href="#reserver">Réserver</a>
+  <a href="#infos">Infos</a>
+  <p>Rue des Bossons 12, 1213 Onex<br>+41 22 000 87 87</p>
+</div>
+
+<main>
+<section class="hero" id="top">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="forno" aria-hidden="true">
+    <div class="forno-ring"></div>
+    <div class="forno-mouth"><div class="fire"></div><div class="fire2"></div><div class="logs"></div></div>
+  </div>
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="hero-txt">
+    <p class="hero-kicker hero-fade d1">À Onex depuis 1987</p>
+    <h1 class="hero-title" aria-label="Pizzeria della Mamma"><span class="ln" aria-hidden="true">Pizzeria</span><span class="ln" aria-hidden="true">della Mamma</span></h1>
+    <p class="hero-sub hero-fade d2">Pâte levée 48 heures, four à bois à 485 °C, 90 secondes de cuisson. La pizza comme à Naples, à deux pas du tram 14.</p>
+    <div class="hero-cta hero-fade d3">
+      <a class="btn btn-fire magnetic" href="#reserver">Réserver une table</a>
+      <a class="btn btn-line magnetic" href="#carte">Commander à emporter</a>
+    </div>
+  </div>
+  <div class="hero-foot hero-fade d4">
+    <span class="status"><i class="dot" id="heroDot"></i><span id="heroStatus">Ouvert</span></span>
+    <span class="addr">Rue des Bossons 12, 1213 Onex</span>
+    <a class="scroll-hint" href="#feu">Découvrir <i></i></a>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track" id="mq">
+    <span>Farina tipo 00</span><b></b><span>48 heures de levée</span><b></b><span>San Marzano DOP</span><b></b><span>Fior di latte d'Agerola</span><b></b><span>Four à bois, 485 °C</span><b></b><span>Cuisson 90 secondes</span><b></b>
+  </div>
+</div>
+
+<section class="feu" id="feu" aria-labelledby="feuTitle">
+  <div class="feu-sticky">
+    <div class="pz-stage" id="pzStage">
+      <div class="pz-glow"></div>
+      <div class="pz-peel"></div>
+      <svg id="pizza" viewBox="0 0 400 400" role="img" aria-label="Une pizza Margherita qui se prépare étape par étape"></svg>
+    </div>
+    <div class="feu-txt">
+      <div class="temp" id="temp" aria-hidden="true"><span id="tempVal">22 °C</span><small id="tempLbl">la pâte repose</small></div>
+      <h2 class="h2 reveal" id="feuTitle"><span>Quatre gestes, quatre-vingt-dix secondes</span></h2>
+      <div class="steps" id="steps">
+        <article class="step on">
+          <h3>La pâte</h3>
+          <p>Farine de Naples, eau, sel et une pincée de levure. Rien d'autre. Puis 48 heures de repos au frais, et la pâte devient légère, presque aérienne.</p>
+          <span class="meta">48 heures de levée</span>
+        </article>
+        <article class="step">
+          <h3>La tomate</h3>
+          <p>Des San Marzano DOP, cultivées au pied du Vésuve et écrasées à la main. Une pincée de sel, pas de cuisson : le four s'en charge.</p>
+          <span class="meta">San Marzano DOP</span>
+        </article>
+        <article class="step">
+          <h3>Le fior di latte</h3>
+          <p>Une mozzarella d'Agerola, livrée deux fois par semaine et déchirée à la main au dernier moment.</p>
+          <span class="meta">Livrée mardi et vendredi</span>
+        </article>
+        <article class="step">
+          <h3>Le feu</h3>
+          <p>Du bois de hêtre, une sole à 485 °C. Un tour de pelle à mi-cuisson, un filet d'huile d'olive et du basilic frais à la sortie.</p>
+          <span class="meta">90 secondes, pas une de plus</span>
+        </article>
+      </div>
+      <ol class="ticks" id="ticks">
+        <li class="on"><span>1. La pâte</span><i></i></li>
+        <li><span>2. La tomate</span><i></i></li>
+        <li><span>3. La mozzarella</span><i></i></li>
+        <li><span>4. Le feu</span><i></i></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="carte sec" id="carte" aria-labelledby="carteTitle">
+  <div class="wrap">
+    <div class="carte-head">
+      <h2 class="h2 reveal" id="carteTitle"><span>La carte</span></h2>
+      <p class="lede fade">Toutes nos pizzas existent à emporter. Ajoutez-les à votre commande, choisissez l'heure de retrait et payez sur place.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Catégories de la carte" id="tabs">
+      <span class="tab-ind" id="tabInd"></span>
+      <button class="tab" role="tab" aria-selected="true" data-cat="rosse">Pizze rosse</button>
+      <button class="tab" role="tab" aria-selected="false" data-cat="bianche">Pizze bianche</button>
+      <button class="tab" role="tab" aria-selected="false" data-cat="fritti">Fritti</button>
+      <button class="tab" role="tab" aria-selected="false" data-cat="dolci">Dolci</button>
+    </div>
+    <div class="menu-grid" id="menuGrid" role="tabpanel" aria-live="polite"></div>
+    <div class="carte-note fade">
+      <p><strong>Rosse ou bianche ?</strong> À Naples, une pizza rossa a une base de tomate, une bianca n'en a pas : elle se construit sur la crème, le fromage ou les légumes.</p>
+      <button class="btn btn-fire" id="openCart2">Voir ma commande</button>
+    </div>
+  </div>
+</section>
+
+<section class="mamma sec" id="mamma" aria-labelledby="mammaTitle">
+  <div class="wrap mamma-in">
+    <div class="tile-panel fade" aria-hidden="true">
+      <div class="medal">
+        <svg class="medal-ring" viewBox="0 0 300 300"><defs><path id="circ" d="M150,150 m-118,0 a118,118 0 1,1 236,0 a118,118 0 1,1 -236,0"/></defs><text><textPath href="#circ" textLength="735" lengthAdjust="spacing">pizzeria della mamma · onex · napoli · dal 1987 · </textPath></text></svg>
+        <div><span>R</span><small>Rosa Esposito</small></div>
+      </div>
+    </div>
+    <div>
+      <h2 class="sr-only" id="mammaTitle">La Mamma</h2>
+      <blockquote class="fade">
+        <p class="quote">« Une bonne pizza, c'est deux jours de patience et quatre-vingt-dix secondes de courage. »</p>
+        <footer class="quote-by"><strong>Rosa Esposito</strong>, la Mamma, arrivée de Naples en 1987</footer>
+      </blockquote>
+      <p class="story fade">Rosa a quitté les Quartieri Spagnoli avec une valise et un bocal de levain. Trente-neuf ans plus tard, ce sont ses petits-enfants qui font tourner la pelle devant le four. Le levain, lui, n'a jamais changé.</p>
+    </div>
+  </div>
+</section>
+
+<section class="resa sec" id="reserver" aria-labelledby="resaTitle">
+  <div class="wrap resa-in">
+    <div>
+      <h2 class="h2 reveal" id="resaTitle"><span>Réserver une table</span></h2>
+      <p class="lede fade">48 places dans la salle, 20 sur la terrasse aux beaux jours. Choisissez votre soirée, on allume le four.</p>
+      <ul class="resa-facts fade">
+        <li><span>Groupes de plus de 12 personnes : appelez-nous au <span style="white-space:nowrap">+41 22 000 87 87</span></span></li>
+        <li>Chaises hautes et menu bambino pour les enfants</li>
+        <li>Table gardée 15 minutes après l'heure prévue</li>
+      </ul>
+    </div>
+    <div class="card fade" id="resaCard">
+      <form id="resaForm" novalidate>
+        <div class="f-row">
+          <span class="f-label" id="lblDate">Jour</span>
+          <div class="chips" id="dateChips" role="group" aria-labelledby="lblDate"></div>
+        </div>
+        <div class="f-row">
+          <span class="f-label" id="lblTime">Heure</span>
+          <div class="seg" role="group" aria-label="Service">
+            <button type="button" data-svc="midi" aria-pressed="false">Midi</button>
+            <button type="button" data-svc="soir" aria-pressed="true">Soir</button>
+          </div>
+          <div class="times" id="timeChips" role="group" aria-labelledby="lblTime"></div>
+          <span class="err-msg" id="errTime"></span>
+        </div>
+        <div class="f-row">
+          <span class="f-label" id="lblGuests">Personnes</span>
+          <div class="stepper" role="group" aria-labelledby="lblGuests">
+            <button type="button" id="gMinus" aria-label="Une personne de moins">−</button>
+            <output id="guests" aria-live="polite">2 personnes</output>
+            <button type="button" id="gPlus" aria-label="Une personne de plus">+</button>
+          </div>
+        </div>
+        <div class="fields">
+          <div class="field" id="fName"><label for="rName">Nom</label><input id="rName" autocomplete="name" placeholder="Giulia Rossi"><span class="err-msg"></span></div>
+          <div class="field" id="fTel"><label for="rTel">Téléphone</label><input id="rTel" type="tel" autocomplete="tel" placeholder="079 123 45 67"><span class="err-msg"></span></div>
+        </div>
+        <div class="resa-sum">
+          <p id="resaSum">Choisissez une heure</p>
+          <button class="btn btn-ink" type="submit">Réserver la table</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="infos sec" id="infos" aria-labelledby="infosTitle">
+  <div class="wrap">
+    <h2 class="h2 reveal" id="infosTitle"><span>Venir chez la Mamma</span></h2>
+    <div class="infos-grid">
+      <div class="map fade">
+        <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="420" fill="#1B1C20"/>
+          <path d="M-20 70 C120 40 220 110 340 70 S560 20 640 60" stroke="#24407F" stroke-width="34" fill="none" opacity=".75"/>
+          <g stroke="#2B2C31" stroke-width="10" fill="none" stroke-linecap="round">
+            <path d="M-10 250 L620 205"/><path d="M120 -10 L180 430"/><path d="M420 -10 L380 430"/><path d="M-10 360 L620 330"/><path d="M250 120 L560 300"/>
+          </g>
+          <g stroke="#38393F" stroke-width="22" fill="none" stroke-linecap="round"><path d="M-20 185 C180 175 380 170 640 140"/></g>
+          <g fill="#232428"><rect x="200" y="225" width="70" height="46" rx="6"/><rect x="290" y="250" width="54" height="60" rx="6"/><rect x="460" y="230" width="80" height="50" rx="6"/><rect x="40" y="280" width="64" height="54" rx="6"/><rect x="210" y="300" width="60" height="44" rx="6"/></g>
+          <g fill="#2F4A2B" opacity=".7"><circle cx="520" cy="370" r="40"/><circle cx="70" cy="140" r="26"/></g>
+          <g font-family="Familjen Grotesk, sans-serif" font-size="13" fill="#7D7F86"><text x="30" y="170">Route de Chancy</text><text x="440" y="56" fill="#5C76B8">Le Rhône</text><text x="330" y="200">Tram 14</text></g>
+        </svg>
+        <div class="map-pin" aria-hidden="true"><b></b></div>
+        <div class="map-label"><span>Rue des Bossons 12, 1213 Onex</span><a href="https://www.google.com/maps/search/?api=1&query=Onex%2C+Gen%C3%A8ve" target="_blank" rel="noopener">Itinéraire</a></div>
+      </div>
+      <div class="info-box fade">
+        <h3>Horaires</h3>
+        <table class="hours" id="hours"></table>
+      </div>
+      <div class="info-box fade">
+        <h3>Nous joindre</h3>
+        <a class="big-tel" href="tel:+41220008787">+41 22 000 87 87</a>
+        <p><a href="mailto:ciao@dellamamma.ch">ciao@dellamamma.ch</a></p>
+        <p>Tram 14, arrêt à deux minutes à pied. Parking public à 150 mètres.</p>
+      </div>
+      <div class="info-box status-box fade">
+        <div><strong id="stBig">Ouvert</strong><p id="stSmall"></p></div>
+        <a class="btn btn-ink" href="#carte">Commander à emporter</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot-tiles" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="wordmark" aria-hidden="true">della Mamma</p>
+    <div class="foot-row">
+      <span>© 2026 Pizzeria della Mamma, Rue des Bossons 12, 1213 Onex</span>
+      <span>Maquette réalisée par le studio de l'araignée. Pizzeria fictive : adresse, téléphone et carte sont inventés.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-labelledby="drTitle" role="dialog" aria-modal="true">
+  <div class="dr-head"><h2 id="drTitle">Votre commande</h2><button class="x" id="drClose" aria-label="Fermer la commande">×</button></div>
+  <div class="dr-body" id="drBody"></div>
+</aside>
+
+<script>
+(function(){
+'use strict';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const chf = n => n + '.<span class="dash">–</span>';
+const pad = n => String(n).padStart(2,'0');
+const hm = m => pad(Math.floor(m/60)) + ':' + pad(m%60);
+
+/* ---------- Horaires ---------- */
+// minutes depuis minuit ; 0 = dimanche
+const OPEN = {0:[[690,840],[1080,1350]],1:[],2:[[690,840],[1080,1350]],3:[[690,840],[1080,1350]],4:[[690,840],[1080,1350]],5:[[690,840],[1080,1380]],6:[[690,840],[1080,1380]]};
+const DAYS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+function status(now=new Date()){
+  const d=now.getDay(), m=now.getHours()*60+now.getMinutes();
+  for(const [a,b] of OPEN[d]) if(m>=a && m<b) return {open:true, until:b};
+  for(let k=0;k<8;k++){
+    const dd=(d+k)%7;
+    for(const [a] of OPEN[dd]) if(k>0 || a>m) return {open:false, day:k===0?'aujourd’hui':k===1?'demain':DAYS[dd].toLowerCase(), at:a};
+  }
+  return {open:false};
+}
+function renderStatus(){
+  const s=status();
+  const dot=$('#heroDot');
+  if(s.open){
+    $('#heroStatus').textContent='Ouvert, le four ferme à '+hm(s.until);
+    $('#stBig').textContent='Le four est allumé';
+    $('#stSmall').textContent='Ouvert jusqu’à '+hm(s.until)+'. Commandez maintenant, c’est prêt en 20 minutes.';
+    dot.classList.remove('closed');
+  } else {
+    $('#heroStatus').textContent='Fermé, réouverture '+s.day+' à '+hm(s.at);
+    $('#stBig').textContent='Le four se repose';
+    $('#stSmall').textContent='Réouverture '+s.day+' à '+hm(s.at)+'. Vous pouvez déjà commander pour plus tard.';
+    dot.classList.add('closed');
+  }
+  const t=$('#hours'), today=new Date().getDay();
+  t.innerHTML=[2,3,4,5,6,0,1].map(d=>`<tr class="${d===today?'today':''}"><td>${DAYS[d]}</td><td>${OPEN[d].length?OPEN[d].map(([a,b])=>hm(a)+'–'+hm(b)).join('<br>'):'Fermé'}</td></tr>`).join('');
+}
+renderStatus();
+
+/* ---------- Titre du héros : lettres ---------- */
+let ci=0;
+$$('.hero-title .ln').forEach(ln=>{
+  const words=ln.textContent.split(' '); ln.textContent='';
+  words.forEach((wd,wi)=>{
+    const w=document.createElement('span'); w.className='wd';
+    for(const ch of wd){
+      const s=document.createElement('span');
+      s.className='ch'; s.style.setProperty('--i',ci++);
+      s.textContent=ch; w.appendChild(s);
+    }
+    ln.appendChild(w);
+    if(wi<words.length-1){ ln.appendChild(document.createTextNode(' ')); ci++; }
+  });
+});
+
+/* ---------- Écran d'ouverture ---------- */
+const pre=$('#pre');
+function start(){ document.body.classList.add('ready'); document.body.classList.remove('locked'); }
+let seen=false; try{ seen=sessionStorage.getItem('dm-pre')==='1'; sessionStorage.setItem('dm-pre','1'); }catch(e){}
+if(reduce||seen){ pre.remove(); start(); }
+else{
+  const deg=$('#deg'), bar=$('#preBar'), t0=performance.now(), D=1500;
+  // filet de sécurité : le site s'ouvre même si l'animation est bloquée
+  const safety=setTimeout(()=>{ if(pre.isConnected){ pre.remove(); start(); } },4000);
+  (function loop(t){
+    const k=Math.min(1,(t-t0)/D), e=1-Math.pow(1-k,3);
+    deg.textContent=Math.round(20+465*e);
+    bar.style.transform='scaleX('+e+')';
+    if(k<1) requestAnimationFrame(loop);
+    else setTimeout(()=>{ clearTimeout(safety); pre.classList.add('out'); setTimeout(start,250); setTimeout(()=>pre.remove(),1100); },200);
+  })(t0);
+}
+
+/* ---------- Braises (canvas) ---------- */
+(function(){
+  const c=$('#embers'), hero=$('#top'); if(!c||reduce) return;
+  const ctx=c.getContext('2d');
+  let w=0,h=0,parts=[],on=true;
+  function size(){
+    const dpr=window.devicePixelRatio||1;
+    w=c.clientWidth; h=c.clientHeight;
+    c.width=Math.round(w*dpr); c.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function spawn(){
+    const fw=Math.min(w*.94,820);
+    return {x:w/2+(Math.random()-.5)*fw*.62, y:h-6-Math.random()*fw*.12, vx:(Math.random()-.5)*.5, vy:-(.6+Math.random()*1.7),
+      r:.5+Math.random()*1.7, life:0, max:140+Math.random()*220, sw:Math.random()*6.28, sws:.02+Math.random()*.04, hue:16+Math.random()*30};
+  }
+  function tick(){
+    if(!on) return;
+    ctx.clearRect(0,0,w,h);
+    ctx.globalCompositeOperation='lighter';
+    if(parts.length<130){ parts.push(spawn()); if(Math.random()<.6) parts.push(spawn()); }
+    for(let i=parts.length-1;i>=0;i--){
+      const p=parts[i];
+      p.life++; p.sw+=p.sws;
+      p.x+=p.vx+Math.sin(p.sw)*.45; p.y+=p.vy; p.vy*=.998;
+      const t=p.life/p.max;
+      if(t>=1||p.y<-20){ parts.splice(i,1); continue; }
+      const a=(t<.08?t/.08:1-t)*(.65+Math.random()*.35);
+      const R=p.r*4.2;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,R);
+      g.addColorStop(0,`hsla(${p.hue+20},100%,82%,${a})`);
+      g.addColorStop(.25,`hsla(${p.hue},100%,60%,${a*.7})`);
+      g.addColorStop(1,'hsla(14,100%,50%,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,R,0,6.2832); ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  size(); addEventListener('resize',size);
+  new IntersectionObserver(([e])=>{ const was=on; on=e.isIntersecting; if(on&&!was) requestAnimationFrame(tick); }).observe(hero);
+  requestAnimationFrame(tick);
+  // la lueur suit doucement la souris
+  if(matchMedia('(pointer:fine)').matches){
+    const glow=$('.hero-glow');
+    hero.addEventListener('pointermove',e=>{ glow.style.setProperty('--mx',((e.clientX/innerWidth)-.5)*120+'px'); });
+  }
+})();
+
+/* ---------- Bandeau défilant ---------- */
+const mq=$('#mq'); mq.innerHTML+=mq.innerHTML;
+
+/* ---------- Navigation ---------- */
+const nav=$('#nav'); let lastY=0;
+function onNav(){
+  const y=scrollY;
+  nav.classList.toggle('solid', y>innerHeight*.6);
+  nav.classList.toggle('hide', y>innerHeight && y>lastY+4 && !document.body.classList.contains('menu-open'));
+  if(y<lastY-4||y<innerHeight) nav.classList.remove('hide');
+  lastY=y;
+}
+addEventListener('scroll',onNav,{passive:true}); onNav();
+const burger=$('#burger');
+function toggleMenu(open){
+  document.body.classList.toggle('menu-open',open);
+  burger.setAttribute('aria-expanded',open); burger.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+}
+burger.addEventListener('click',()=>toggleMenu(!document.body.classList.contains('menu-open')));
+$$('#mob a').forEach(a=>a.addEventListener('click',()=>toggleMenu(false)));
+
+/* ---------- Boutons magnétiques ---------- */
+if(matchMedia('(pointer:fine)').matches && !reduce){
+  $$('.magnetic').forEach(b=>{
+    b.addEventListener('pointermove',e=>{ const r=b.getBoundingClientRect(); b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.35}px)`; });
+    b.addEventListener('pointerleave',()=>{ b.style.transform=''; });
+  });
+}
+
+/* ---------- Apparitions au scroll ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -12% 0px'});
+$$('.reveal,.fade').forEach(el=>io.observe(el));
+
+/* ---------- La pizza (SVG) ---------- */
+let seed=7; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+(function(){
+  const svg=$('#pizza'); let s='';
+  s+=`<defs>
+  <radialGradient id="gDough" cx="50%" cy="46%" r="52%"><stop offset="0" stop-color="#F4DFB2"/><stop offset=".74" stop-color="#EECB8E"/><stop offset=".86" stop-color="#E3AE68"/><stop offset=".96" stop-color="#C98845"/><stop offset="1" stop-color="#A9672D"/></radialGradient>
+  <radialGradient id="gSauce" cx="44%" cy="40%" r="62%"><stop offset="0" stop-color="#DE5030"/><stop offset=".65" stop-color="#C5341C"/><stop offset="1" stop-color="#A32613"/></radialGradient>
+  <radialGradient id="gMozz" cx="38%" cy="34%" r="72%"><stop offset="0" stop-color="#FFFEF8"/><stop offset=".6" stop-color="#F8F0DD"/><stop offset="1" stop-color="#E4D1A8"/></radialGradient>
+  <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5BAA45"/><stop offset=".6" stop-color="#2F7428"/><stop offset="1" stop-color="#1C4E1A"/></linearGradient>
+  <filter id="fWob" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="16"/></filter>
+  <filter id="fDough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="11"/><feDisplacementMap in="SourceGraphic" scale="10"/></filter>
+  <filter id="fMoz" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".07" numOctaves="2" seed="9"/><feDisplacementMap in="SourceGraphic" scale="12"/><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#6b2a10" flood-opacity=".35"/></filter>
+  <filter id="fChar" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.4"/></filter>
+  <filter id="fLeaf" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="1.6" flood-color="#000" flood-opacity=".35"/></filter>
+  </defs><g id="pzRot">`;
+  s+=`<circle cx="200" cy="200" r="186" fill="url(#gDough)" filter="url(#fDough)"/>`;
+  s+=`<circle cx="200" cy="200" r="150" fill="#F1D7A2" opacity=".55" filter="url(#fDough)"/>`;
+  // farine
+  s+='<g class="pz-flour" fill="#fff">';
+  for(let i=0;i<70;i++){ const a=rnd()*6.283, r=rnd()*175; s+=`<circle cx="${200+Math.cos(a)*r}" cy="${200+Math.sin(a)*r}" r="${.6+rnd()*1.6}" opacity="${.3+rnd()*.5}"/>`; }
+  s+='</g>';
+  // sauce
+  s+='<g class="pz-sauce"><circle cx="200" cy="200" r="146" fill="url(#gSauce)" filter="url(#fWob)"/>';
+  for(let i=0;i<46;i++){ const a=rnd()*6.283, r=rnd()*130; s+=`<circle cx="${200+Math.cos(a)*r}" cy="${200+Math.sin(a)*r}" r="${1+rnd()*3}" fill="${rnd()<.5?'#8E1F0E':'#E86A45'}" opacity=".55"/>`; }
+  s+='</g>';
+  // mozzarella
+  const blobs=[[200,200,30,24],[140,150,26,20],[262,140,24,22],[272,250,30,22],[150,262,26,24],[205,295,22,18],[110,205,20,18],[290,195,18,16],[205,108,22,18]];
+  s+='<g class="pz-mozz">';
+  blobs.forEach(([x,y,rx,ry],i)=>{ s+=`<ellipse class="blob" style="--d:${i}" cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="url(#gMozz)" filter="url(#fMoz)"/>`; });
+  s+='</g>';
+  // cornicione bruni (taches léopard)
+  s+='<g class="pz-char" filter="url(#fChar)">';
+  for(let i=0;i<64;i++){ const a=rnd()*6.283, r=158+rnd()*24, sz=2+rnd()*5.5; s+=`<ellipse cx="${200+Math.cos(a)*r}" cy="${200+Math.sin(a)*r}" rx="${sz}" ry="${sz*.7}" fill="${rnd()<.3?'#1d0f07':'#4a2611'}" opacity="${.55+rnd()*.4}" transform="rotate(${a*57.3} ${200+Math.cos(a)*r} ${200+Math.sin(a)*r})"/>`; }
+  for(let i=0;i<22;i++){ const a=rnd()*6.283, r=rnd()*120, x=200+Math.cos(a)*r, y=200+Math.sin(a)*r; s+=`<circle cx="${x}" cy="${y}" r="${1.5+rnd()*2.5}" fill="#8a4a1c" opacity=".45"/>`; }
+  s+='</g>';
+  // basilic
+  const leaves=[[188,180,-30,1.1],[248,212,40,.95],[152,226,150,.9],[222,262,95,1],[190,128,-80,.85],[266,160,15,.8]];
+  s+='<g class="pz-basil">';
+  leaves.forEach(([x,y,r,k],i)=>{ s+=`<g transform="translate(${x} ${y}) scale(${k})"><g class="leaf" style="--d:${i};--r:${r}deg" filter="url(#fLeaf)"><path d="M-24 0 C-14 -15 10 -16 24 0 C10 16 -14 15 -24 0Z" fill="url(#gLeaf)"/><path d="M-22 0 C-6 -1 8 -1 22 0" stroke="#8FD07A" stroke-width="1" fill="none" opacity=".6"/></g></g>`; });
+  s+='</g>';
+  // huile
+  s+='<g class="pz-oil" fill="#F9D24A">';
+  for(let i=0;i<10;i++){ const a=rnd()*6.283, r=rnd()*110; s+=`<ellipse cx="${200+Math.cos(a)*r}" cy="${200+Math.sin(a)*r}" rx="${3+rnd()*5}" ry="${1.5+rnd()*2}" opacity=".55"/>`; }
+  s+='</g></g>';
+  svg.innerHTML=s;
+})();
+
+/* ---------- Scroll de la section « Notre feu » ---------- */
+(function(){
+  const feu=$('#feu'), svg=$('#pizza'), rot=$('#pzRot'), stage=$('#pzStage');
+  const steps=$$('.step'), ticks=$$('#ticks li'), tv=$('#tempVal'), tl=$('#tempLbl');
+  const TEMPS=[[22,'la pâte repose'],[22,'tomates du Vésuve'],[22,'mozzarella du jour'],[485,'dans le four']];
+  let cur=-1, ticking=false;
+  function update(){
+    ticking=false;
+    const r=feu.getBoundingClientRect(), total=feu.offsetHeight-innerHeight;
+    const p=Math.min(1,Math.max(0,-r.top/total));
+    const step=Math.min(3,Math.floor(p*4));
+    rot.style.transform=`rotate(${(p*140-30).toFixed(2)}deg)`;
+    ticks.forEach((t,i)=>{ const f=Math.min(1,Math.max(0,p*4-i)); t.querySelector('i').style.setProperty('--f',f.toFixed(3)); });
+    if(step!==cur){
+      cur=step;
+      svg.classList.toggle('s1',step>=1); svg.classList.toggle('s2',step>=2); svg.classList.toggle('s3',step>=3);
+      stage.classList.toggle('hot',step>=3);
+      steps.forEach((s,i)=>{ s.classList.toggle('on',i===step); s.classList.toggle('past',i<step); s.setAttribute('aria-hidden',i!==step); });
+      ticks.forEach((t,i)=>t.classList.toggle('on',i<=step));
+      animTemp(TEMPS[step][0]); tl.textContent=TEMPS[step][1];
+    }
+  }
+  let tShown=22, tRaf;
+  function animTemp(to){
+    cancelAnimationFrame(tRaf); const from=tShown, t0=performance.now();
+    (function l(t){ const k=Math.min(1,(t-t0)/900), e=1-Math.pow(1-k,3); tShown=Math.round(from+(to-from)*e); tv.textContent=tShown+' °C'; if(k<1) tRaf=requestAnimationFrame(l); })(t0);
+  }
+  addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } },{passive:true});
+  addEventListener('resize',update);
+  update();
+})();
+
+/* ---------- La carte ---------- */
+const MENU={
+  rosse:[
+    {id:'marg',n:'Margherita',d:'San Marzano, fior di latte, basilic, huile d’olive de Sorrente',p:18,t:['veg']},
+    {id:'mari',n:'Marinara',d:'Tomate, ail, origan de Sicile, huile d’olive. La plus ancienne de Naples.',p:15,t:['veg']},
+    {id:'rosa',n:'Mamma Rosa',d:'Tomates cerises jaunes du Vésuve, burrata entière, basilic, poivre noir',p:26,t:['sig','veg']},
+    {id:'diav',n:'Diavola',d:'Tomate, fior di latte, salame piquant de Calabre, huile pimentée',p:21,t:['hot']},
+    {id:'capr',n:'Capricciosa',d:'Tomate, fior di latte, jambon cuit, artichauts, champignons, olives',p:23,t:[]},
+    {id:'cosa',n:'Cosacca',d:'Tomate, pecorino romano, basilic. La préférée des puristes.',p:17,t:['veg']}
+  ],
+  bianche:[
+    {id:'frie',n:'Salsiccia e friarielli',d:'Fior di latte fumé, saucisse fraîche, brocoli-rave sautés à l’ail',p:24,t:['sig']},
+    {id:'mort',n:'Mortadella e pistacchio',d:'Fior di latte, mortadelle de Bologne, crème de pistaches de Bronte, burrata',p:26,t:[]},
+    {id:'form',n:'Quattro formaggi',d:'Fior di latte, gorgonzola, provola fumée, parmesan 24 mois',p:23,t:['veg']},
+    {id:'pata',n:'Patate e provola',d:'Pommes de terre fondantes, provola fumée, romarin, poivre',p:21,t:['veg']}
+  ],
+  fritti:[
+    {id:'mont',n:'Montanara',d:'Petite pizza frite, sauce tomate, parmesan, basilic',p:14,t:['veg']},
+    {id:'frit',n:'Frittatina di pasta',d:'Pâtes, béchamel, petits pois et jambon, panées et frites',p:9,t:[]},
+    {id:'croc',n:'Crocchè',d:'Croquettes de pommes de terre, cœur de mozzarella filante',p:8,t:['veg']},
+    {id:'olive',n:'Olive all’ascolana',d:'Olives farcies à la viande, panées, citron',p:9,t:[]}
+  ],
+  dolci:[
+    {id:'baba',n:'Babà al rhum',d:'Brioche napolitaine imbibée au rhum, crème vanille',p:10,t:['sig']},
+    {id:'tira',n:'Tiramisù della Mamma',d:'La recette de Rosa, préparée chaque matin',p:11,t:[]},
+    {id:'sfog',n:'Sfogliatella',d:'Feuilleté croustillant, ricotta, agrumes confits',p:7,t:[]},
+    {id:'pizn',n:'Pizza Nutella',d:'Pâte à pizza, Nutella, sucre glace. À partager.',p:15,t:[]}
+  ]
+};
+const ALL={}; Object.values(MENU).flat().forEach(x=>ALL[x.id]=x);
+const TAGS={sig:['sig','Signature'],veg:['veg','Végétarien'],hot:['hot','Piquant']};
+const cart={};
+let curCat='rosse';
+
+function renderMenu(anim){
+  $('#menuGrid').classList.toggle('static',!anim);
+  $('#menuGrid').innerHTML=MENU[curCat].map((x,i)=>`
+    <article class="dish" style="--d:${i}">
+      <div class="dish-top"><h3>${x.n}</h3><span class="lead"></span><span class="price">${chf(x.p)}</span></div>
+      <p>${x.d}</p>
+      <div class="dish-foot">
+        <span class="tags">${x.t.map(t=>`<span class="tag ${TAGS[t][0]}">${TAGS[t][1]}</span>`).join('')}</span>
+        ${cart[x.id]?`<span class="qty-note">${cart[x.id]} dans la commande</span>`:''}
+        <button class="add" data-id="${x.id}" aria-label="Ajouter ${x.n} à la commande">Ajouter <i aria-hidden="true">+</i></button>
+      </div>
+    </article>`).join('');
+}
+function moveInd(){
+  const sel=$('.tab[aria-selected="true"]'), ind=$('#tabInd');
+  ind.style.width=sel.offsetWidth+'px'; ind.style.transform=`translateX(${sel.offsetLeft}px)`;
+}
+$$('.tab').forEach(t=>t.addEventListener('click',()=>{
+  $$('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));
+  curCat=t.dataset.cat; moveInd(); renderMenu(true);
+}));
+renderMenu(true); moveInd();
+addEventListener('resize',moveInd);
+document.fonts && document.fonts.ready.then(moveInd);
+
+$('#menuGrid').addEventListener('click',e=>{
+  const b=e.target.closest('.add'); if(!b) return;
+  addToCart(b.dataset.id, b);
+});
+
+function count(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function sum(){ return Object.entries(cart).reduce((a,[id,q])=>a+ALL[id].p*q,0); }
+function updateBadge(){
+  const c=$('#cartCount'); c.textContent=count();
+  c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+}
+function addToCart(id, btn){
+  cart[id]=(cart[id]||0)+1;
+  const target=$('#cartBtn');
+  if(btn && !reduce){
+    const a=btn.querySelector('i').getBoundingClientRect(), z=target.getBoundingClientRect();
+    const x0=a.left+a.width/2, y0=a.top+a.height/2, x1=z.right-22, y1=z.top+z.height/2;
+    const f=document.createElement('div'); f.className='fly'; document.body.appendChild(f);
+    const mx=(x0+x1)/2, my=Math.min(y0,y1)-160;
+    f.animate([
+      {transform:`translate(${x0}px,${y0}px) scale(1)`},
+      {transform:`translate(${mx}px,${my}px) scale(1.3)`,offset:.5},
+      {transform:`translate(${x1}px,${y1}px) scale(.4)`}
+    ],{duration:750,easing:'cubic-bezier(.45,0,.3,1)'}).onfinish=()=>{ f.remove(); updateBadge(); };
+    // assure que la nav est visible pour voir la braise arriver
+    nav.classList.remove('hide');
+  } else updateBadge();
+  if(btn){ btn.classList.add('done'); btn.querySelector('i').textContent='✓'; setTimeout(()=>{ renderMenu(); },900); }
+  if(document.body.classList.contains('cart-open')) renderCart();
+}
+
+/* ---------- Tiroir de commande ---------- */
+let lastFocus=null, orderDone=null;
+function openCart(){
+  lastFocus=document.activeElement;
+  document.body.classList.add('cart-open','locked');
+  const b=$('#drBody'); b.classList.add('fresh'); setTimeout(()=>b.classList.remove('fresh'),700);
+  renderCart();
+  setTimeout(()=>$('#drClose').focus(),100);
+}
+function closeCart(){
+  document.body.classList.remove('cart-open','locked');
+  if(lastFocus) lastFocus.focus();
+}
+$('#cartBtn').addEventListener('click',openCart);
+$('#openCart2').addEventListener('click',openCart);
+$('#drClose').addEventListener('click',closeCart);
+$('#scrim').addEventListener('click',closeCart);
+addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ if(document.body.classList.contains('cart-open')) closeCart(); else if(document.body.classList.contains('menu-open')) toggleMenu(false); }
+  if(e.key==='Tab' && document.body.classList.contains('cart-open')){
+    const f=$$('#drawer button,#drawer input,#drawer select,#drawer a').filter(x=>!x.disabled);
+    if(!f.length) return;
+    if(e.shiftKey && document.activeElement===f[0]){ e.preventDefault(); f[f.length-1].focus(); }
+    else if(!e.shiftKey && document.activeElement===f[f.length-1]){ e.preventDefault(); f[0].focus(); }
+  }
+});
+
+function pickupSlots(){
+  const now=new Date(), out=[];
+  const startM=now.getHours()*60+now.getMinutes()+20;
+  for(let k=0;k<7 && out.length<18;k++){
+    const d=new Date(now); d.setDate(now.getDate()+k);
+    const label=k===0?'Aujourd’hui':k===1?'Demain':DAYS[d.getDay()];
+    for(const [a,b] of OPEN[d.getDay()]){
+      let m=Math.max(a+15, k===0?Math.ceil(startM/15)*15:0);
+      for(;m<=b-15 && out.length<18;m+=15) out.push({v:k+'-'+m,l:label+', '+hm(m),short:(k===0?'aujourd’hui':label.toLowerCase())+' à '+hm(m)});
+    }
+  }
+  return out;
+}
+const emptySvg=`<svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="#EBC488"/><circle cx="60" cy="60" r="40" fill="#F1D7A2"/><circle cx="60" cy="60" r="52" fill="none" stroke="#C98845" stroke-width="3" stroke-dasharray="4 7"/><path d="M60 8 L60 60 L105 34 A52 52 0 0 0 60 8Z" fill="#F6F7F4"/></svg>`;
+function renderCart(){
+  const body=$('#drBody');
+  if(orderDone){
+    const o=orderDone;
+    body.innerHTML=`<div class="done-card" style="padding-bottom:0">
+      <svg class="done-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="38" fill="none" stroke="#2E7D4F" stroke-width="3"/><path d="M26 43 l11 11 l21 -23" fill="none" stroke="#2E7D4F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Commande envoyée</h3><p>Merci ${o.name}. Votre commande sera prête ${o.slot}.</p></div>
+      <div class="ticket" aria-label="Récapitulatif de la commande">
+        <small>Commande</small><div class="no">n° ${o.no}</div>
+        <ul>${o.lines.map(([n,q,p])=>`<li><span>${q} × ${n}</span><span>${chf(p)}</span></li>`).join('')}</ul>
+        <div class="row"><span>Total, à payer sur place</span><strong>${chf(o.total)}</strong></div>
+        <div class="row"><span>Retrait</span><strong>Rue des Bossons 12</strong></div>
+      </div>
+      <p class="mock-note" style="text-align:center;margin-top:30px">Maquette : aucune commande n’a été envoyée.</p>
+      <button class="btn btn-ink btn-block" id="newOrder" style="margin-top:20px">Nouvelle commande</button>`;
+    $('#newOrder').addEventListener('click',()=>{ orderDone=null; renderCart(); });
+    return;
+  }
+  const ids=Object.keys(cart).filter(id=>cart[id]>0);
+  if(!ids.length){
+    body.innerHTML=`<div class="empty">${emptySvg}<h3>Votre commande est vide</h3><p>Ajoutez une pizza depuis la carte pour commencer.</p><a class="btn btn-ink" href="#carte" id="toMenu">Voir la carte</a></div>`;
+    $('#toMenu').addEventListener('click',closeCart);
+    return;
+  }
+  const slots=pickupSlots();
+  body.innerHTML=`
+    <div>${ids.map(id=>`<div class="line"><div><h4>${ALL[id].n}</h4><small>${chf(ALL[id].p)} pièce</small></div>
+      <div class="mini"><button data-q="-1" data-id="${id}" aria-label="Retirer une ${ALL[id].n}">−</button><span>${cart[id]}</span><button data-q="1" data-id="${id}" aria-label="Ajouter une ${ALL[id].n}">+</button></div>
+      <span class="amt">${chf(ALL[id].p*cart[id])}</span></div>`).join('')}</div>
+    <div class="total"><span>Total, à payer sur place</span><strong>${chf(sum())}</strong></div>
+    <form class="dr-form" id="orderForm" novalidate>
+      <div class="field"><label for="oSlot">Heure de retrait</label><select id="oSlot">${slots.map(s=>`<option value="${s.v}" data-short="${s.short}">${s.l}</option>`).join('')}</select></div>
+      <div class="field" id="foName"><label for="oName">Nom</label><input id="oName" autocomplete="name" placeholder="Giulia Rossi"><span class="err-msg"></span></div>
+      <div class="field" id="foTel"><label for="oTel">Téléphone</label><input id="oTel" type="tel" autocomplete="tel" placeholder="079 123 45 67"><span class="err-msg"></span></div>
+      <button class="btn btn-fire btn-block" type="submit">Envoyer la commande</button>
+    </form>`;
+  $$('.mini button',body).forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.id; cart[id]=Math.max(0,cart[id]+Number(b.dataset.q)); if(!cart[id]) delete cart[id];
+    updateBadge(); renderMenu(); renderCart();
+    const again=$(`.mini button[data-id="${id}"][data-q="${b.dataset.q}"]`); if(again) again.focus(); else $('#drClose').focus();
+  }));
+  $('#orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const okN=checkField($('#foName'),v=>v.trim().length>=2,'Indiquez votre nom pour retrouver la commande.');
+    const okT=checkField($('#foTel'),v=>v.replace(/\D/g,'').length>=9,'Indiquez un numéro de téléphone, au moins 9 chiffres.');
+    if(!okN||!okT){ (okN?$('#oTel'):$('#oName')).focus(); return; }
+    const sel=$('#oSlot').selectedOptions[0];
+    orderDone={no:String(Math.floor(1000+Math.random()*9000)), name:$('#oName').value.trim().split(' ')[0], slot:sel.dataset.short,
+      total:sum(), lines:ids.map(id=>[ALL[id].n,cart[id],ALL[id].p*cart[id]])};
+    for(const k in cart) delete cart[k];
+    updateBadge(); renderMenu(); renderCart(); $('#drBody').scrollTop=0;
+  });
+}
+function checkField(wrap, test, msg){
+  const inp=$('input',wrap), m=$('.err-msg',wrap), ok=test(inp.value);
+  wrap.classList.toggle('err',!ok); m.textContent=ok?'':msg; inp.setAttribute('aria-invalid',!ok);
+  if(!inp._l){ inp._l=true; inp.addEventListener('input',()=>{ wrap.classList.remove('err'); m.textContent=''; inp.removeAttribute('aria-invalid'); }); }
+  return ok;
+}
+
+/* ---------- Réservation ---------- */
+(function(){
+  const dates=[], now=new Date();
+  for(let k=0;dates.length<12 && k<20;k++){
+    const d=new Date(now); d.setDate(now.getDate()+k);
+    if(OPEN[d.getDay()].length) dates.push({d,k});
+  }
+  const fmtDay=new Intl.DateTimeFormat('fr-CH',{weekday:'short'}), fmtMon=new Intl.DateTimeFormat('fr-CH',{month:'short'}), fmtLong=new Intl.DateTimeFormat('fr-CH',{weekday:'long',day:'numeric',month:'long'});
+  const SVC={midi:[720,750,780,810],soir:[1110,1140,1170,1200,1230,1260,1290]};
+  // tard le soir, on propose directement le prochain jour ouvert
+  const late=dates[0].k===0 && now.getHours()*60+now.getMinutes()+30>SVC.soir[SVC.soir.length-1];
+  const state={di:late?1:0,svc:'soir',time:null,g:2};
+  $('#dateChips').innerHTML=dates.map((x,i)=>`<button type="button" class="chip" data-i="${i}" aria-pressed="${i===state.di}"><small>${x.k===0?'Auj.':x.k===1?'Dem.':fmtDay.format(x.d).replace('.','')}</small><b>${x.d.getDate()}</b><small>${fmtMon.format(x.d).replace('.','')}</small></button>`).join('');
+  function full(i,m){ return ((dates[i].d.getDate()*7+m/30)%5)===0 || (dates[i].d.getDay()===6 && m===1200); }
+  function renderTimes(){
+    const nowM=now.getHours()*60+now.getMinutes();
+    const list=SVC[state.svc].filter(m=>!(dates[state.di].k===0 && m<nowM+30));
+    if(!list.includes(state.time)) state.time=null;
+    $('#timeChips').innerHTML=list.length?list.map(m=>{
+      const f=full(state.di,m);
+      if(f && state.time===m) state.time=null;
+      return `<button type="button" class="time" data-m="${m}" aria-pressed="${state.time===m}" ${f?'disabled title="Complet"':''}>${hm(m)}${f?'<span class="sr-only"> complet</span>':''}</button>`;
+    }).join(''):`<p class="no-slot">Plus de table libre ${state.svc==='midi'?'ce midi':'ce soir'}. Choisissez un autre service ou un autre jour.</p>`;
+    sumUp();
+  }
+  function sumUp(){
+    const d=dates[state.di].d;
+    $('#resaSum').innerHTML=state.time===null?'Choisissez une heure':`<strong>${fmtLong.format(d)}</strong>, ${hm(state.time)}, ${state.g} ${state.g>1?'personnes':'personne'}`;
+  }
+  $('#dateChips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b) return; state.di=+b.dataset.i; $$('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b)); renderTimes(); });
+  $$('.seg button').forEach(b=>b.addEventListener('click',()=>{ state.svc=b.dataset.svc; state.time=null; $$('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderTimes(); }));
+  $('#timeChips').addEventListener('click',e=>{ const b=e.target.closest('.time'); if(!b||b.disabled) return; state.time=+b.dataset.m; $$('.time').forEach(x=>x.setAttribute('aria-pressed',x===b)); $('#errTime').textContent=''; sumUp(); });
+  function setG(n){ state.g=Math.min(12,Math.max(1,n)); $('#guests').textContent=state.g+' '+(state.g>1?'personnes':'personne'); sumUp(); }
+  $('#gMinus').addEventListener('click',()=>setG(state.g-1));
+  $('#gPlus').addEventListener('click',()=>setG(state.g+1));
+  renderTimes();
+  $('#resaForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    let ok=true;
+    if(state.time===null){ $('#errTime').textContent='Choisissez une heure pour réserver.'; ok=false; }
+    const okN=checkField($('#fName'),v=>v.trim().length>=2,'Indiquez le nom de la réservation.');
+    const okT=checkField($('#fTel'),v=>v.replace(/\D/g,'').length>=9,'Indiquez un numéro de téléphone, au moins 9 chiffres.');
+    if(!ok||!okN||!okT){ (state.time===null?$('#timeChips button:not(:disabled)'):!okN?$('#rName'):$('#rTel'))?.focus(); return; }
+    const name=$('#rName').value.trim().split(' ')[0];
+    $('#resaCard').innerHTML=`<div class="done-card" tabindex="-1" id="resaDone">
+      <svg class="done-ico" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="38" fill="none" stroke="#2E7D4F" stroke-width="3"/><path d="M26 43 l11 11 l21 -23" fill="none" stroke="#2E7D4F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Table réservée</h3>
+      <p>À bientôt ${name}. Votre table pour ${state.g} vous attend ${fmtLong.format(dates[state.di].d)} à ${hm(state.time)}.</p>
+            <p class="mock-note">Maquette : aucune réservation n’a été envoyée.</p></div>`;
+    $('#resaDone').focus();
+  });
+})();
+
+})();
+</script>
+</body>
+</html>
