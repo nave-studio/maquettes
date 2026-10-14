@@ -525,6 +525,8 @@ a.pill-btn { text-decoration: none; }
 .agenda-ok .card-note { margin-bottom: 30px; }
 [hidden] { display: none !important; }
 
+.contact-intro, .contact-card, .info-col { min-width: 0; }
+
 /* Horaires, accès, contact : des chapitres qui suivent le rendez-vous */
 .info {
     position: relative; z-index: 8;
@@ -596,7 +598,9 @@ a.pill-btn { text-decoration: none; }
 
 @media (max-width: 1000px) {
     .info { padding: 96px 24px 30px; }
-    .info-inner { grid-template-columns: 1fr; gap: 80px; }
+    .info-inner { grid-template-columns: minmax(0, 1fr); gap: 80px; }
+    /* Une colonne ne s'élargit jamais pour un titre : fitTitles() le réduit à la place. */
+    .contact-inner { grid-template-columns: minmax(0, 1fr); }
     .info .contact-title { font-size: clamp(38px, 10vw, 64px); letter-spacing: -0.035em; }
     .site-footer { left: auto; right: auto; padding: 20px 24px 28px; flex-direction: column; align-items: flex-start; }
     .footer-credit { justify-content: flex-start; }
