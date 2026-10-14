@@ -610,6 +610,10 @@ a.pill-btn { text-decoration: none; }
     .hero-actions { margin-top: 22px; gap: 10px; }
     .hero-actions .pill-btn { padding: 14px 20px; }
     .team { grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+    /* Les trois chiffres en colonnes égales : jamais plus larges que l'écran. */
+    .figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .figure dt { font-size: clamp(26px, 8vw, 34px); white-space: nowrap; }
+    .slide, .slide-desc, .benefits, .team { max-width: 100%; }
 }
 
 </style>
@@ -695,10 +699,10 @@ a.pill-btn { text-decoration: none; }
 
 <div class="slide" id="slide-2">
   <h2 class="slide-title">Deux physios <br>à vos côtés.</h2>
-  <p class="slide-desc">Inès Corthay et Léo Marquis sont physiothérapeutes diplômés HES. Vous voyez la même personne du bilan à la dernière séance, et on vous explique toujours ce qu'on fait, et pourquoi.</p>
+  <p class="slide-desc">Physiothérapeutes diplômés HES. Vous voyez la même personne du bilan à la dernière séance.</p>
   <ul class="team">
-    <li class="benefit"><span class="benefit-icon team-initials" aria-hidden="true">IC</span><p><strong>Inès Corthay</strong>Post-opératoire et drainage. Parle français, anglais et italien.</p></li>
-    <li class="benefit"><span class="benefit-icon team-initials" aria-hidden="true">LM</span><p><strong>Léo Marquis</strong>Sport et dos. Parle français, allemand et espagnol.</p></li>
+    <li class="benefit"><span class="benefit-icon team-initials" aria-hidden="true">IC</span><p><strong>Inès Corthay</strong>Post-opératoire et drainage. Français, anglais, italien.</p></li>
+    <li class="benefit"><span class="benefit-icon team-initials" aria-hidden="true">LM</span><p><strong>Léo Marquis</strong>Sport et dos. Français, allemand, espagnol.</p></li>
   </ul>
 </div>
 
