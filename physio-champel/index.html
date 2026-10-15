@@ -1778,7 +1778,8 @@ function cameraFrame(scroll) {
     const c = smoothScrollRange(scroll, 0.72, 0.81);
     const weights = [1 - a, a - b, b - c, c];
     const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    const reach = objectRadius * (1 + 0.8 * separation);   // the fragments fly ~1.15 units out
+    // The fragments fly ~1.15 units out and up to 0.55 towards the camera: measured, not guessed.
+    const reach = objectRadius * (1 + 1.1 * separation);
     let cx = 0, cy = 0, needed = 0;
     weights.forEach((w, i) => {
         const zone = freeZones[i] || { cx: sizes.width / 2, cy: sizes.height / 2, size: Math.min(sizes.width, sizes.height) };
