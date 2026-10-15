@@ -466,6 +466,8 @@ a.pill-btn { text-decoration: none; }
 .agenda-groupe { border: 0; margin: 0 0 26px; padding: 0; min-width: 0; }
 .agenda-groupe legend { padding: 0; margin-bottom: 14px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Les cases cachées restent dans leur bouton : sinon elles sortent de la rangée des jours et élargissent la page. */
+.chip, .day, .slot { position: relative; }
 .chip input, .day input, .slot input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
 .chip span, .day span, .slot span {
     display: inline-flex; align-items: center; justify-content: center;
