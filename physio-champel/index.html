@@ -1785,7 +1785,7 @@ function cameraFrame(scroll) {
         const zone = freeZones[i] || { cx: sizes.width / 2, cy: sizes.height / 2, size: Math.min(sizes.width, sizes.height) };
         cx += w * zone.cx;
         cy += w * zone.cy;
-        if (w > 0.001) needed = Math.max(needed, reach * sizes.height / (0.84 * Math.max(zone.size, 1)) / tanHalf);
+        if (w > 0.001) needed = Math.max(needed, reach * sizes.height / (0.76 * Math.max(zone.size, 1)) / tanHalf);
     });
     radius = Math.max(radius, needed);
     const halfH = radius * tanHalf, halfW = halfH * aspect;
