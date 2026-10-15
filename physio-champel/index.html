@@ -599,6 +599,9 @@ body.contact-open .main-header::before { opacity: 1; }
     .slide, .slide-desc, .benefits, .team { max-width: 100%; }
 }
 
+/* Mesure du texte pour le cadrage 3D : position finale, sans les décalages d'entrée. */
+.measuring-text .slide, .measuring-text .slide * { transition: none !important; transform: none !important; }
+
 </style>
 <script type="importmap">{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/examples/jsm/loaders/SVGLoader.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/SVGLoader.js"}}</script>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" crossorigin>
@@ -1579,6 +1582,9 @@ function createGlassLogo() {
     wholeGeometry.translate(0, 0, -LOGO_DEPTH / 2);
     wholeBody = new THREE.Mesh(wholeGeometry, glass);
     wholeBody.position.copy(whole.home);
+    wholeGeometry.computeBoundingBox();
+    const extent = wholeGeometry.boundingBox.getSize(new THREE.Vector3());
+    objectRadius = Math.max(extent.x, extent.y) / 2 * 1.05;
     logo.add(wholeBody);
 
     // Final watertight prism: bevels grow and holes open once the fragments merge.
@@ -1704,36 +1710,105 @@ function smoothScrollRange(scroll, start, end) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-// Camera framing. Landscape: orbit close, object pushed sideways to clear the text
-// columns. Portrait (phones, tablets): orbit further out and stack vertically, the
-// object taking the lower half on slides 1 and 3 and the upper half on 2 and 4.
+// ---- Cadrage selon le texte (cabinet Mobilis) ----------------------------------
+// Chaque chapitre mesure où son texte est réellement dessiné, puis place l'objet dans le
+// plus grand espace libre restant (à droite, à gauche, au-dessus ou en dessous) et le
+// rapetisse si cet espace est petit : le verre ne passe jamais sur le texte, quelle que
+// soit la taille de la fenêtre. Mesuré au chargement et à chaque redimensionnement.
+const STACKED = window.matchMedia('(max-width: 900px), (max-aspect-ratio: 4/5)');
+let freeZones = [];
+let objectRadius = 1.65;   // demi-encombrement de la forme assemblée, recalculé à la création
+
+// Union des zones réellement dessinées : lignes de texte, boutons, icônes.
+function textRect(slide) {
+    if (!slide) return null;
+    const rects = [];
+    const range = document.createRange();
+    const walker = document.createTreeWalker(slide, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        if (!node.textContent.trim()) continue;
+        range.selectNodeContents(node);
+        for (const r of range.getClientRects()) if (r.width && r.height) rects.push(r);
+    }
+    slide.querySelectorAll('.pill-btn, .benefit-icon').forEach(el => rects.push(el.getBoundingClientRect()));
+    if (!rects.length) return null;
+    return {
+        left: Math.min(...rects.map(r => r.left)), right: Math.max(...rects.map(r => r.right)),
+        top: Math.min(...rects.map(r => r.top)), bottom: Math.max(...rects.map(r => r.bottom))
+    };
+}
+
+function measureFreeZones() {
+    // Mesure à la position finale du texte, sans les décalages de ses animations d'entrée.
+    document.body.classList.add('measuring-text');
+    const W = window.innerWidth, H = window.innerHeight, top = 82, gap = 28, edge = 14;
+    freeZones = [1, 2, 3, 4].map(i => {
+        const r = textRect(document.getElementById(`slide-${i}`));
+        if (!r) return { cx: W / 2, cy: H / 2, size: Math.min(W, H) };
+        let best = null;
+        for (const [x0, y0, x1, y1] of [
+            [r.right + gap, top, W - edge, H - edge],   // à droite du texte
+            [edge, top, r.left - gap, H - edge],        // à gauche
+            [edge, top, W - edge, r.top - gap],         // au-dessus
+            [edge, r.bottom + gap, W - edge, H - edge]  // en dessous
+        ]) {
+            const size = Math.min(x1 - x0, y1 - y0);
+            if (size > 0 && (!best || size > best.size)) best = { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2, size };
+        }
+        return best || { cx: W / 2, cy: H / 2, size: 1 };
+    });
+    document.body.classList.remove('measuring-text');
+}
+
+// Camera framing. The template's orbit and distances are kept as the design size; the
+// object's place on screen comes from the free zone of each chapter, and the camera only
+// moves further away (object smaller) when that zone is too small.
 function cameraFrame(scroll) {
     const aspect = sizes.width / sizes.height;
-    const portrait = THREE.MathUtils.clamp((1.0 - aspect) / 0.2, 0, 1);
+    const portrait = STACKED.matches ? 1 : THREE.MathUtils.clamp((1.0 - aspect) / 0.2, 0, 1);
     const separation = getLogoSeparation(scroll);
     const morph = smoothScrollRange(scroll, 0.40, 0.54);
     const landscapeRadius = 4.7 - Math.sin(scroll * Math.PI) * 0.6 + separation * 2.6 + morph * 0.9;
     const portraitRadius = 8.9 - Math.sin(scroll * Math.PI) * 0.4 + separation * 2.0 + morph * 0.4;
-    const radius = lerp(landscapeRadius, portraitRadius, portrait);
-    // Landscape: shift the object sideways so it never sits under a text block.
-    // One weight per chapter, negative pushes the object right (text on the left).
-    const ch1 = 1 - smoothScrollRange(scroll, 0.12, 0.24);
-    const ch2 = smoothScrollRange(scroll, 0.12, 0.24) - smoothScrollRange(scroll, 0.40, 0.50);
-    const ch3 = smoothScrollRange(scroll, 0.52, 0.62) - smoothScrollRange(scroll, 0.74, 0.86);
-    const ch4 = smoothScrollRange(scroll, 0.74, 0.86);
-    const x = (-1.5 * ch1 + 1.5 * ch2 - 1.8 * ch3 - 1.4 * ch4) * (1 - portrait);
-    // Portrait: +1 puts the object low on screen, -1 high; alternates per chapter.
-    const stack = 1 - 2 * smoothScrollRange(scroll, 0.16, 0.26)
-        + 2 * smoothScrollRange(scroll, 0.44, 0.54)
-        - 2 * smoothScrollRange(scroll, 0.72, 0.82);
-    const visibleHeight = 2 * radius * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    // Object centre at 70 % of the height when low, 31 % when high (clear of the header).
-    const y = -0.15 + portrait * stack * (stack > 0 ? 0.20 : 0.19) * visibleHeight;
-    // Screen-right axis for this orbit position (camera looks at the origin).
+    let radius = lerp(landscapeRadius, portraitRadius, portrait);
+    // Chapter weights always sum to one, and each move happens where no text is shown
+    // (between the slide windows), so the object never travels across visible copy.
+    const a = smoothScrollRange(scroll, 0.14, 0.25);
+    const b = smoothScrollRange(scroll, 0.44, 0.53);
+    const c = smoothScrollRange(scroll, 0.72, 0.81);
+    const weights = [1 - a, a - b, b - c, c];
+    const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    const reach = objectRadius * (1 + 0.8 * separation);   // the fragments fly ~1.15 units out
+    let cx = 0, cy = 0, needed = 0;
+    weights.forEach((w, i) => {
+        const zone = freeZones[i] || { cx: sizes.width / 2, cy: sizes.height / 2, size: Math.min(sizes.width, sizes.height) };
+        cx += w * zone.cx;
+        cy += w * zone.cy;
+        if (w > 0.001) needed = Math.max(needed, reach * sizes.height / (0.84 * Math.max(zone.size, 1)) / tanHalf);
+    });
+    radius = Math.max(radius, needed);
+    const halfH = radius * tanHalf, halfW = halfH * aspect;
+    const sx = cx / sizes.width * 2 - 1, sy = 1 - cy / sizes.height * 2;
     const phi = scroll * Math.PI * 2.0;
     const right = new THREE.Vector3(Math.cos(phi), 0, -Math.sin(phi));
-    const lookAt = new THREE.Vector3(0, y, 0).addScaledVector(right, x);
+    const lookAt = new THREE.Vector3(0, -0.3 - sy * halfH, 0).addScaledVector(right, -sx * halfW);
     return { radius, lookAt, portrait };
+}
+
+// QA : où l'objet est réellement dessiné à l'écran (boîte englobante projetée).
+function objectScreenRect() {
+    const box = new THREE.Box3();
+    modelPivot.updateMatrixWorld(true);
+    modelPivot.traverse(o => { if (o.isMesh && o.visible) box.expandByObject(o); });
+    if (box.isEmpty()) return null;
+    camera.updateMatrixWorld(true);
+    const xs = [], ys = [];
+    for (let i = 0; i < 8; i++) {
+        const p = new THREE.Vector3(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z).project(camera);
+        xs.push((p.x + 1) / 2 * sizes.width);
+        ys.push((1 - p.y) / 2 * sizes.height);
+    }
+    return { left: Math.min(...xs), right: Math.max(...xs), top: Math.min(...ys), bottom: Math.max(...ys) };
 }
 
 function getLogoSeparation(scroll) {
@@ -1936,7 +2011,7 @@ function updateCursorLabel() {
     const text = targetContact > 0.02 ? 'RDV' : String(Math.round(currentScroll * 100)).padStart(3, '0');
     if (text !== cursorLabelText) { label.textContent = text; cursorLabelText = text; }
 }
-window.addEventListener('resize', () => { onWindowResize(); headerState.chapter = -1; fitTitles(); });
+window.addEventListener('resize', () => { onWindowResize(); headerState.chapter = -1; fitTitles(); measureFreeZones(); });
 
 function splitTitlesIntoLines() {
     document.querySelectorAll('.slide-title').forEach(title => {
@@ -2244,6 +2319,9 @@ window.__glassSite = {
     },
     mailto() { const form = document.querySelector('#contact-form'); return form ? buildMailto(form) : null; },
     get scroll() { return currentScroll; },
+    get objectRect() { return objectScreenRect(); },
+    textRect(i) { return textRect(document.getElementById(`slide-${i}`)); },
+    get zones() { return freeZones; },
     get contact() { return currentContact; },
     get pieces() { return logoPieces.map(p => ({ name: p.name, points: p.correspondence.length })); }
 };
@@ -2304,6 +2382,7 @@ function init() {
     createGlassLogo();
     createGlassCard();
     onWindowResize();
+    measureFreeZones();
     // Compile the card's shader now rather than when the visitor reaches the form.
     if (glassCard) {
         glassCard.visible = true;
@@ -2316,7 +2395,7 @@ function init() {
     setupNavigation();
     setupContactForm();
     // First frame rendered, shaders compiled: release the preloader once fonts are in.
-    const release = () => { fitTitles(); if (window.__glassLoader) window.__glassLoader.done(); };
+    const release = () => { fitTitles(); measureFreeZones(); if (window.__glassLoader) window.__glassLoader.done(); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(release, release); else release();
 }
 if (document.readyState === 'loading') {
